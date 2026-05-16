@@ -1,25 +1,20 @@
 #include "executor.h"
+#include "linenoise.h"
 #include <ctype.h>
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
 #define SHELL_NAME "hysilen"
 
 int main() {
-  size_t line_size = 1024;
-  char line[line_size];
-
   while (1) {
-    printf("%s> ", SHELL_NAME);
-    if (fgets(line, line_size, stdin) == NULL) {
+    char *line = linenoise("hysilen> ");
+    if (line == NULL)
       break;
-    };
-
-    line[strcspn(line, "\n")] = '\0';
-
     char *p = line;
+
     char *args[64];
     int argc = 0;
 
@@ -46,8 +41,10 @@ int main() {
     if (argc == 0) {
       printf("Please enter a command.\n");
     } else if (execute_command(args) < 0) {
+      free(line);
       break;
     }
+    free(line);
   }
   return 0;
 }
