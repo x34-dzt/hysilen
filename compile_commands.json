@@ -1,0 +1,36 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-O0",
+      "-Iinclude",
+      "-o",
+      "hysilen",
+      "src/main.c"
+    ],
+    "directory": "/home/xantarius/code/clang-practice/shell",
+    "file": "/home/xantarius/code/clang-practice/shell/src/main.c",
+    "output": "/home/xantarius/code/clang-practice/shell/hysilen"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-g",
+      "-O0",
+      "-Iinclude",
+      "-o",
+      "hysilen",
+      "src/executor.c"
+    ],
+    "directory": "/home/xantarius/code/clang-practice/shell",
+    "file": "/home/xantarius/code/clang-practice/shell/src/executor.c",
+    "output": "/home/xantarius/code/clang-practice/shell/hysilen"
+  }
+]
