@@ -1,8 +1,37 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define SHELL_NAME "hysilen"
+
+int available_commands(char *command) {
+  if (strcmp(command, "ls") == 0) {
+    return 1;
+  } else if (strcmp(command, "exit") == 0) {
+    return 1;
+  }
+  return -1;
+}
+
+int execute_command(char *args[]) {
+  if (available_commands(args[0]) == 1) {
+    if (strcmp(args[0], "exit") == 0) {
+      return 20;
+    }
+    pid_t pid = fork();
+    if (pid == 0) {
+      execvp(args[0], args);
+    } else {
+      waitpid(pid, NULL, 0);
+    }
+  } else {
+    printf("unknown command %s\n", args[0]);
+  };
+
+  return 0;
+}
 
 int main() {
   size_t line_size = 1024;
@@ -39,15 +68,11 @@ int main() {
         *p++ = '\0';
       }
     }
-
     args[argc] = NULL;
-
-    if (strcmp(args[0], "exit") == 0) {
+    if (argc == 0) {
+      printf("Please enter a command.\n");
+    } else if (execute_command(args) == 20) {
       break;
-    }
-
-    for (int i = 0; args[i] != NULL; i++) {
-      printf("args[%d]: %s\n", i, args[i]);
     }
   }
   return 0;
